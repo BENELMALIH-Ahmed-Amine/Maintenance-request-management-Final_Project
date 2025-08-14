@@ -11,7 +11,8 @@ class Poste extends Model
         'image',
         'dectiption',
         'priority',
-        'category_id'
+        'category_id',
+        'user_id'
     ];
 
     public function user(){

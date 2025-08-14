@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('image');
             $table->string('dectiption');
             $table->string('priority');
-            $table->foreignId('category_id');
+            $table->foreignId('category_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

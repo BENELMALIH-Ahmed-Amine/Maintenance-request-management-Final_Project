@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Hash;
@@ -28,25 +29,37 @@ class DatabaseSeeder extends Seeder
                 'guard_name' => 'web'
             ],
             [
-                'name' => 'technician',
+                'name' => 'Technician',
                 'guard_name' => 'web'
             ],
             [
-                'name' => 'client',
+                'name' => 'Client',
                 'guard_name' => 'web'
             ]
         ]);
 
         $admin = User::create([
             'name' => 'admin name',
-            'email' => 'mousaa@gmail.com',
+            'email' => 'admin@gmail.com',
             'password' => Hash::make('moul lmou9f'),
             'address' => '20202 sejour',
-            'profil' => '',
-            'rate' => 100,
-            'category_id' => '1'
+            'profil' => 'Profils/K2JqCMLAuYlLTXJoqNd3xV0tPOEHjbhpXo6IVgW8.jpg',
+            'category_id' => null
         ]);
 
         $admin->assignRole("admin");
+
+        
+        Category::insert([
+            ['name' => 'Carreleur'],
+            ['name' => 'Charpentier'],
+            ['name' => 'Electicien'],
+            ['name' => 'Forgeron'],
+            ['name' => 'Maçon'],
+            ['name' => 'Peintre en Bâtiment'],
+            ['name' => 'Plâtrier'],
+            ['name' => 'Plombier'],
+            ['name' => 'Serrurier'],
+        ]);
     }
 }

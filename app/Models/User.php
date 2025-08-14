@@ -24,7 +24,6 @@ class User extends Authenticatable
         'password',
         'address',
         'profil',
-        'rate',
         'category_id'
     ];
 
