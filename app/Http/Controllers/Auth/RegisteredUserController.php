@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'address' => ['required', 'string'],
             'profil' => ['nullable', 'image', 'max:2048'],
             'user_type' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'nullable'
         ]);
 
         $path = $request->file('profil')->store('Profils', 'public');

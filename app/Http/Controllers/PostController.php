@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Poste;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PosteController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class PosteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Poste $poste)
+    public function show(Post $post)
     {
         //
     }
@@ -42,7 +42,7 @@ class PosteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Poste $poste)
+    public function edit(Post $post)
     {
         //
     }
@@ -50,7 +50,7 @@ class PosteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Poste $poste)
+    public function update(Request $request, Post $post)
     {
         //
     }
@@ -58,7 +58,7 @@ class PosteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Poste $poste)
+    public function destroy(Post $post)
     {
         //
     }

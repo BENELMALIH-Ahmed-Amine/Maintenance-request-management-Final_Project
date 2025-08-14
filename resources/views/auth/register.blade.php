@@ -19,27 +19,27 @@
         <!-- User type  -->
         <div class="mt-4 ml-1 flex items-center">
             <x-input-label for="user_type" :value="__('Register as a')" class="text-[16px]" />
-            <select name="user_type" id="" class=" border-0 focus:ring-0">
+            <select name="user_type" id="role" class="border-0 focus:ring-0">
                 <option value="{{ $roles[1]->id }}">{{ $roles[1]->name }}</option>
                 <option value="{{ $roles[2]->id }}" selected>{{ $roles[2]->name }}</option>
             </select>
         </div>
 
-        {{-- @if () --}}
-            <!-- Category  -->
-            <div class="mt-4 ml-1 flex items-center">
-                <x-input-label for="category" :value="__('Profetion:')" class="text-[16px]" />
-                <select name="category_id" id="" class=" border-0 focus:ring-0">
-                    @foreach ($categorys as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        {{-- @endif --}}
+        <!-- Category  -->
+        <div class="ml-1 hidden items-center" id="category">
+            <x-input-label for="category" :value="__('Profetion:')" class="text-[16px]" />
+            <select name="category_id" class=" border-0 focus:ring-0">
+                <option value="" selected>Choose you Profetion</option>
+                @foreach ($categorys as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
 
         <!-- Address -->
         <div class="mt-4">
-            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" placeholder="Address" />
+            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address"
+                placeholder="Address" />
         </div>
 
         <!-- Password -->

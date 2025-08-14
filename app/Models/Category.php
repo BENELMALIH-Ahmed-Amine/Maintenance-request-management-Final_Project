@@ -10,11 +10,13 @@ class Category extends Model
         'name'
     ];
 
-    public function users(){
+    public function users()
+    {
         return $this->hasMany(User::class);
     }
 
-    public function postes(){
-        return $this->hasMany(Poste::class);
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
     }
 }
