@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminDashController extends Controller
 {
@@ -63,6 +64,13 @@ class AdminDashController extends Controller
      */
     public function destroy(User $user)
     {
+        $path = $user->profil;
+        $storage = Storage::disk('public');
+
+        if ($storage->exists($path)) {
+            $storage->delete($path);
+        }
+        
         $user->delete();
         return back();
     }

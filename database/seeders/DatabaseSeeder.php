@@ -51,15 +51,15 @@ class DatabaseSeeder extends Seeder
 
         
         Category::insert([
-            ['name' => 'Carreleur'],
-            ['name' => 'Charpentier'],
-            ['name' => 'Electicien'],
-            ['name' => 'Forgeron'],
-            ['name' => 'Maçon'],
-            ['name' => 'Peintre en Bâtiment'],
-            ['name' => 'Plâtrier'],
-            ['name' => 'Plombier'],
-            ['name' => 'Serrurier'],
+            ['name' => 'Carreleur - زلّاج'],
+            ['name' => 'Charpentier - نجار'],
+            ['name' => 'Electicien - كهربائي'],
+            ['name' => 'Forgeron - حداد'],
+            ['name' => 'Maçon - بناء'],
+            ['name' => 'Peintre en Bâtiment - صبّاغ'],
+            ['name' => 'Plâtrier - جبّاص'],
+            ['name' => 'Plombier - بلومبي'],
+            ['name' => 'Serrurier - صانع أقفال'],
         ]);
     }
 }

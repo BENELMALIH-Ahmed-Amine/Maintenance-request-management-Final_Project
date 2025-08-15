@@ -29,9 +29,9 @@
         <div class="ml-1 hidden items-center" id="category">
             <x-input-label for="category" :value="__('Profetion:')" class="text-[16px]" />
             <select name="category_id" class=" border-0 focus:ring-0">
-                <option value="" selected>Choose you Profetion</option>
+                <option value="" selected>Choose your Profetion</option>
                 @foreach ($categorys as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
