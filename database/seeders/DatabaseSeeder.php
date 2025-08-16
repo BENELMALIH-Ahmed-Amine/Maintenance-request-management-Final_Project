@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Status;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Hash;
@@ -51,15 +52,25 @@ class DatabaseSeeder extends Seeder
 
         
         Category::insert([
-            ['name' => 'Carreleur - زلّاج'],
-            ['name' => 'Charpentier - نجار'],
-            ['name' => 'Electicien - كهربائي'],
-            ['name' => 'Forgeron - حداد'],
-            ['name' => 'Maçon - بناء'],
-            ['name' => 'Peintre en Bâtiment - صبّاغ'],
-            ['name' => 'Plâtrier - جبّاص'],
-            ['name' => 'Plombier - بلومبي'],
-            ['name' => 'Serrurier - صانع أقفال'],
+            ['name' => 'Carrelage - زليج'],
+            ['name' => 'Charpenterie - نجارة'],
+            ['name' => 'Électricité - كهرباء'],
+            ['name' => 'Forge - حدادة'],
+            ['name' => 'Maçonnerie- بناء'],
+            ['name' => 'Peinture en Bâtiment - صباغ'],
+            ['name' => 'Plâtrerie - جباص'],
+            ['name' => 'Plomberie - بلومبي'],
+            ['name' => 'Serrureri- صانع أقفال']
+        ]);
+        
+        
+        Status::insert([
+            ['name' => 'Dès que possible - عاجل'],
+            ['name' => '3/4 jours - 3/4 أيام'],
+            ['name' => 'Une Semaine - أسبوع'],
+            ['name' => 'En cours - يتِم'],
+            ['name' => 'Terminé - تَم']
         ]);
     }
 }
+

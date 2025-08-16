@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Post;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class AdminDashController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::whereDoesntHave('roles', function($function) {
+        $users = User::whereDoesntHave('roles', function ($function) {
             $function->where('name', 'admin');
         })->get();
-        return view( 'admin.adminDash', compact('users'));
+        return view('admin.adminDash', compact('users'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function newPosts()
+    {
+        $statuses = Status::all();
+        $categorys = Category::all();
+
+        $clientPosts = Post::whereHas('status', function ($query) {
+            $query->where('name', 'Une Semaine - أسبوع');
+        })->get();
+
+        return view('admin.newPosts', compact('categorys', 'clientPosts', 'statuses'));
     }
 
     /**
@@ -70,7 +88,7 @@ class AdminDashController extends Controller
         if ($storage->exists($path)) {
             $storage->delete($path);
         }
-        
+
         $user->delete();
         return back();
     }

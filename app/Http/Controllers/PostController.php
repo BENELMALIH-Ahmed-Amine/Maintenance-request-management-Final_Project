@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
-class UsersController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +19,8 @@ class UsersController extends Controller
         $clientPosts = Post::where('user_id', '=', Auth::user()->id)->get();
 
         $categorys = Category::all();
-        return view('profile.clientProfile', compact('clientPosts', 'categorys'));
-    }
-
-    /**
-     * Display a listing of the resourceer_id.
-     */
-    public function TechIndex()
-    {
-        //
+        $statuses = Status::all();
+        return view('profile.clientProfile', compact('clientPosts', 'categorys', 'statuses'));
     }
 
     /**
@@ -43,9 +38,9 @@ class UsersController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'dectiption' => ['required', 'string'],
+            'description' => ['required', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
-            'priority' => ['required', 'string'],
+            'status_id' => 'required',
             'category_id' => 'required',
             'user_id' => 'required'
         ]);
@@ -54,11 +49,11 @@ class UsersController extends Controller
 
         Post::create([
             'title' => $request->title,
-            'dectiption' => $request->dectiption,
-            'priority' => $request->priority,
+            'description' => $request->description,
+            'image' => $path,
+            'status_id' => $request->status_id,
             'category_id' => $request->category_id,
             'user_id' => $request->user_id,
-            'image' => $path,
         ]);
 
         return back();
@@ -85,7 +80,34 @@ class UsersController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'status_id' => 'required',
+            'category_id' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $path = storage_path('app/public/' . $post->image);
+
+        if (file_exists($path)) {
+            $storage = Storage::disk('public');
+            $storage->delete($path);
+
+            $request->image->move(storage_path('app/public/' . $post->image));
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $path,
+            'status_id' => $request->status_id,
+            'category_id' => $request->category_id,
+            'user_id' => $request->user_id,
+        ]);
+
+        return back();
     }
 
     /**
@@ -93,6 +115,14 @@ class UsersController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $path = $post->image;
+        $storage = Storage::disk('public');
+
+        if ($storage->exists($path)) {
+            $storage->delete($path);
+        }
+
+        $post->delete();
+        return back();
     }
 }

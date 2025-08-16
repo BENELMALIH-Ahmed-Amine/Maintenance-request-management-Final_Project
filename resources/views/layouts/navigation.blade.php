@@ -23,6 +23,12 @@
                             <span class="text-[18px]">adminDash</span>
                          </x-nav-link>
                     </div>
+
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('newPosts')" :active="request()->routeIs('newPosts')">
+                            <span class="text-[18px]">newPosts</span>
+                         </x-nav-link>
+                    </div>
                 @endrole
             </div>
 

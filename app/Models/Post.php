@@ -9,8 +9,8 @@ class Post extends Model
     protected $fillable = [
         'title',
         'image',
-        'dectiption',
-        'priority',
+        'description',
+        'status_id',
         'category_id',
         'user_id'
     ];
@@ -23,5 +23,10 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }
