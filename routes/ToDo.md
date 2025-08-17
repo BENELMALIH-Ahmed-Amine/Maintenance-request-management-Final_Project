@@ -6,8 +6,8 @@ hondel register errors
 
 edit posts
 
-select functionnality
-
 assign a specific the posts to a specific tech
 
 give the admin access to users accounts
+
+logo + lmou9f

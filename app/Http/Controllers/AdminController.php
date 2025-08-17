@@ -24,7 +24,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Filters the resources.
      */
     public function newPosts(Request $request)
     {
@@ -40,15 +40,17 @@ class AdminController extends Controller
             $query->where('category_id', $category_id);
         }
 
-
         if ($status_id) {
             $query->where('status_id', $status_id);
         }
 
         $clientPosts = $query->get();
 
+        
+        $postCategory = Post::pluck('category_id')->unique();
+        $techs = User::whereIn('category_id', $postCategory)->get();
 
-        return view('admin.newPosts', compact('categorys', 'clientPosts', 'statuses'));
+        return view('admin.newPosts', compact('categorys', 'clientPosts', 'statuses', 'techs'));
     }
 
     /**
