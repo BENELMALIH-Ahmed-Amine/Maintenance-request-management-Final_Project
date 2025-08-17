@@ -8,6 +8,7 @@ use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Termwind\Components\Dd;
 
 class AdminController extends Controller
 {
@@ -25,14 +26,27 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function newPosts()
+    public function newPosts(Request $request)
     {
         $statuses = Status::all();
         $categorys = Category::all();
 
-        $clientPosts = Post::whereHas('status', function ($query) {
-            $query->where('name', 'Une Semaine - أسبوع');
-        })->get();
+        $category_id = $request->category_id;
+        $status_id = $request->status_id;
+
+        $query = Post::query();
+
+        if ($category_id) {
+            $query->where('category_id', $category_id);
+        }
+
+
+        if ($status_id) {
+            $query->where('status_id', $status_id);
+        }
+
+        $clientPosts = $query->get();
+
 
         return view('admin.newPosts', compact('categorys', 'clientPosts', 'statuses'));
     }

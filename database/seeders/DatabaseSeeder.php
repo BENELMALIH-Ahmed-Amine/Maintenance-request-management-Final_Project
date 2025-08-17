@@ -65,9 +65,9 @@ class DatabaseSeeder extends Seeder
         
         
         Status::insert([
-            ['name' => 'Dès que possible - عاجل'],
-            ['name' => '3/4 jours - 3/4 أيام'],
-            ['name' => 'Une Semaine - أسبوع'],
+            ['name' => 'Urgent - عاجل'],
+            ['name' => '3/4 jours - أيام'],
+            ['name' => 'Semaine - أسبوع'],
             ['name' => 'En cours - يتِم'],
             ['name' => 'Terminé - تَم']
         ]);

@@ -18,15 +18,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    
+
     // admin
     Route::get('/adminDash', [AdminController::class, 'index'])->name('adminDash')->middleware('role:admin');
     Route::delete('/adminDash/destroy/{user}', [AdminController::class, 'destroy'])->middleware('role:admin');
     
     Route::get('/newPosts', [AdminController::class, 'newPosts'])->name('newPosts')->middleware('role:admin');
+    Route::post('/newPosts', [AdminController::class, 'newPosts'])->name('newPosts')->middleware('role:admin');
     Route::delete('/admin/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:admin');
     
-    
+
     // users
     Route::get('/clientProfile', [PostController::class, 'clientIndex'])->name('clientProfile');
     Route::post('/post/store', [PostController::class, 'store'])->middleware('role:Client');
