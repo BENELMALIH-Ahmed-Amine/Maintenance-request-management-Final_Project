@@ -26,8 +26,9 @@ class AdminController extends Controller
     /**
      * Filters the resources.
      */
-    public function newPosts(Request $request)
+    public function filterPosts(Request $request)
     {
+        // Filter:
         $statuses = Status::all();
         $categorys = Category::all();
 
@@ -44,13 +45,13 @@ class AdminController extends Controller
             $query->where('status_id', $status_id);
         }
 
-        $clientPosts = $query->get();
+        $posts = $query->get();
 
-        
-        $postCategory = Post::pluck('category_id')->unique();
-        $techs = User::whereIn('category_id', $postCategory)->get();
+        // Techs:
+        $techs = User::all();
 
-        return view('admin.newPosts', compact('categorys', 'clientPosts', 'statuses', 'techs'));
+
+        return view('admin.newPosts', compact('categorys', 'posts', 'statuses', 'techs'));
     }
 
     /**
@@ -66,7 +67,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

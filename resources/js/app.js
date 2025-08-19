@@ -7,6 +7,7 @@ window.Alpine = Alpine;
 Alpine.start();
 
 
+// Set registeration role:
 if (role.value == 2) {
     category.classList.remove("hidden")
     category.classList.add("flex")

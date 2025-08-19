@@ -29,4 +29,9 @@ class Post extends Model
     {
         return $this->belongsTo(Status::class);
     }
+
+    public function assignment()
+    {
+        return $this->hasOne(Assignment::class);
+    }
 }

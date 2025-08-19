@@ -60,7 +60,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Peinture en Bâtiment - صباغ'],
             ['name' => 'Plâtrerie - جباص'],
             ['name' => 'Plomberie - بلومبي'],
-            ['name' => 'Serrureri- صانع أقفال']
+            ['name' => 'Serrureri - صانع أقفال']
         ]);
         
         

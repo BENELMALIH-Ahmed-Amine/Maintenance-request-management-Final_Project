@@ -11,11 +11,13 @@
                 </div>
 
                 <!-- Navigation Links -->
+                @role('Client'|'Technician')
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         <span class="text-[18px]">Accouil</span>
-                     </x-nav-link>
+                    </x-nav-link>
                 </div>
+                @endrole
 
                 @role('admin')
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
@@ -26,7 +28,7 @@
 
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('newPosts')" :active="request()->routeIs('newPosts')">
-                            <span class="text-[18px]">newPosts</span>
+                            <span class="text-[18px]">New Posts</span>
                          </x-nav-link>
                     </div>
                 @endrole
@@ -56,10 +58,6 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('clientProfile')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Setings') }}
                         </x-dropdown-link>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Assignment;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Status;
@@ -16,11 +17,25 @@ class PostController extends Controller
      */
     public function clientIndex()
     {
-        $clientPosts = Post::where('user_id', '=', Auth::user()->id)->get();
+        // $posts = Post::where('user_id', '=', Auth::user()->id)->get();
+
+        // $user = Auth::user();
+
+
+        if (Auth::user()->hasRole('Client')) {
+            // Show client's posts
+            $posts = Post::where('user_id', Auth::user()->id)->get();
+        } else {
+            // Show technician's assigned posts
+            $posts = Post::whereHas('assignment', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })->get();
+        }
 
         $categorys = Category::all();
         $statuses = Status::all();
-        return view('profile.clientProfile', compact('clientPosts', 'categorys', 'statuses'));
+
+        return view('dashboard', compact('posts', 'categorys', 'statuses'));
     }
 
     /**
@@ -57,6 +72,25 @@ class PostController extends Controller
         ]);
 
         return back();
+    }
+
+    /**
+     * Assing the posts.
+     */
+
+    public function assign(Request $request, Post $post)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        // Create or update assignment
+        Assignment::updateOrCreate(
+            ['post_id' => $post->id],
+            ['user_id' => $request->user_id]
+        );
+
+        return back()->with('success', 'Technician assigned successfully!');
     }
 
     /**
