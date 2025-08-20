@@ -9,7 +9,6 @@
         </h2>
     </x-slot>
 
-    {{-- Todo: separe client / tech --}}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg flex flex-col gap-[50px]">
@@ -56,27 +55,85 @@
                     <div
                         class="px-6 pb-6 text-gray-900 dark:text-gray-100 flex flex-wrap justify-center gap-x-5 gap-y-8">
                         @foreach ($posts as $post)
-                            <article class="h-[530px] bg-slate-200 relative">
+                            <article class="h-[500px] bg-slate-200 relative">
                                 <form action="/post/update/{{ $post->id }}" method="POST"3
                                     class="w-[360px] p-3 pb-0 bg-slate-200 rounded-2xl edit" id="">
                                     @csrf
                                     @method('PUT')
 
                                     <div class="mb-5 flex items-center justify-between">
-                                        <textarea name="title" class="w-[250px] p-0 bg-slate-200  focus:ring-0 text-[22px] underline">{{ $post->title }}</textarea>
-                                        <span
-                                            class="h-fit pt-0.5 pb-[5px] px-3 bg-gray-400 rounded-2xl text-white font-semibold">{{ $post->status->name }}</span>
+                                        <textarea readonly name="title"
+                                            class="w-[250px] p-0 bg-slate-200 overflow-hidden border-none resize-none focus:ring-0 text-[22px] underline">{{ $post->title }}</textarea>
+
+                                        {{-- user's infos --}}
+                                        <div class="relative">
+                                            @role('Client')
+                                                @php
+                                                    $statusColor = 'gray-400';
+                                                    if ($post->status->name == 'En cours - يتِم') {
+                                                        $statusColor = 'orange-500';
+                                                    } elseif ($post->status->name == 'Terminé - تَم') {
+                                                        $statusColor = 'green-500';
+                                                    }
+                                                @endphp
+                                                <section
+                                                    class="w-[60px] h-[60px] rounded-xl border-[1.8px]border-black relative">
+                                                    <img class="w-full h-full rounded-xl border-[2px] border-black"
+                                                        src="{{ asset('storage/' . $post->assignment?->user?->profil) }}"
+                                                        alt="waiting">
+                                                    <x-bi-info-circle
+                                                        class="w-[20px] h-[20px] bg-{{ $statusColor }} text-white rounded-full absolute top-[7px] -right-[7px] info" />
+                                                </section>
+
+                                                <section class="w-[250px] p-3 bg-gray-300 break-all z-[1] hidden absolute">
+                                                    <h3>
+                                                        Name:&nbsp;{{ $post->assignment?->user?->name ?? 'Not assigned yet' }}
+                                                    </h3>
+                                                    <p>
+                                                        Email:&nbsp;{{ $post->assignment?->user?->email ?? 'Not assigned yet' }}
+                                                    </p>
+                                                    <h4>
+                                                        Address:&nbsp;{{ $post->assignment?->user?->address ?? 'Not assigned yet' }}
+                                                    </h4>
+                                                </section>
+                                            @endrole
+                                            @role('Technician')
+                                                @php
+                                                    $statusColor = 'gray-400';
+                                                    if ($post->status->name == 'Urgent - عاجل') {
+                                                        $statusColor = 'red-500';
+                                                    } elseif ($post->status->name == '3/4 jours - أيام') {
+                                                        $statusColor = 'orange-500';
+                                                    } elseif ($post->status->name == 'Semaine - أسبوع') {
+                                                        $statusColor = 'black';
+                                                    }
+                                                @endphp
+                                                <section
+                                                    class="w-[60px] h-[60px] rounded-xl border-[1.8px]border-black relative">
+                                                    <img class="w-full h-full rounded-xl border-[2px] border-black"
+                                                        src="{{ asset('storage/' . $post->user->profil) }}" alt="">
+                                                    <x-bi-info-circle
+                                                        class="w-[20px] h-[20px] bg-{{ $statusColor }} text-white rounded-full absolute top-[7px] -right-[7px] info" />
+                                                </section>
+
+                                                <section class="w-[250px] p-3 bg-gray-300 break-all z-[1] hidden absolute">
+                                                    <h3>Name:&nbsp;{{ $post->user->name }}</h3>
+                                                    <p>Email:&nbsp;{{ $post->user->email }}</p>
+                                                    <h4>Address:&nbsp;{{ $post->user->address }}</h4>
+                                                </section>
+                                            @endrole
+                                        </div>
                                     </div>
 
-                                    <textarea name="description"
-                                        class="w-full h-fit py-0 px-[10px] bg-slate-200 focus:ring-0 text-[18px]">{{ $post->description }}</textarea>
-                                    <div class="h-[300px]">
+                                    <textarea readonly name="description"
+                                        class="w-full h-fit py-0 px-[10px] bg-slate-200 border-none resize-none focus:ring-0 text-[18px]">{{ $post->description }}</textarea>
+                                    <div class="h-[300px] border border-black rounded-[10px]">
                                         <img class="w-full h-full rounded-[10px]"
                                             src="{{ asset('storage/' . $post->image) }}" alt="">
                                     </div>
 
-                                    {{-- Edit --}}
                                     @role('Client')
+                                        {{-- Edit --}}
                                         <button id="" type="button"
                                             class="editBtn px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:shadow-outline-red active:bg-green-600 transition duration-150 ease-in-out absolute bottom-3 left-[90px]">
                                             Edit
@@ -84,8 +141,8 @@
                                     @endrole
                                 </form>
 
-                                {{-- Delete --}}
                                 @role('Client')
+                                    {{-- Delete --}}
                                     <form action="/post/destroy/{{ $post->id }}" method="POST"
                                         class="absolute bottom-3 right-[90px]">
                                         @csrf
@@ -96,6 +153,39 @@
                                             DELETE
                                         </button>
                                     </form>
+                                @endrole
+
+                                @role('Technician')
+                                    <div class="flex justify-around items-center">
+                                        {{-- status(Technician) --}}
+                                        <form action="/post/accept/{{ $post->id }}" method="POST"
+                                            class="w-[70%] mt-2">
+                                            @csrf
+                                            @method('PUT')
+
+                                            {{-- Doing - Done --}}
+                                            <select name="status_id" class="w-full p-2 border rounded taskStatus">
+                                                <option value="">Etat de la tâche</option>
+                                                <option value="{{ $statuses[3]->id }}"
+                                                    {{ $post->status_id == $statuses[3]->id ? 'selected' : '' }}>
+                                                    {{ $statuses[3]->name }}</option>
+                                                <option value="{{ $statuses[4]->id }}"
+                                                    {{ $post->status_id == $statuses[4]->id ? 'selected' : '' }}>
+                                                    {{ $statuses[4]->name }}</option>
+                                            </select>
+                                        </form>
+
+                                        {{-- Chat with the Client --}}
+                                        <a href="{{ url('/chatify/' . $post->user->id) }}" class="relative">
+                                            <x-bi-chat-fill class="w-[25px] h-[25px] hover:text-gray-500" />
+                                            @if ($unreadCounts > 0)
+                                                <span
+                                                    class="px-[6px] bg-red-500 rounded-full text-white text-[13px] absolute top-0 left-5">
+                                                    {{ $unreadCounts }}
+                                                </span>
+                                            @endif
+                                        </a>
+                                    </div>
                                 @endrole
                             </article>
                         @endforeach
@@ -125,6 +215,25 @@
     </div>
 
     <script>
+        // Client's Info:
+        let info = document.querySelectorAll('.info');
+        info.forEach(i => {
+            let clientInfo = i.parentElement.nextElementSibling
+
+            i.addEventListener('mouseover', () => {
+                clientInfo.classList.remove('hidden')
+
+            })
+
+            clientInfo.addEventListener('click', () => {
+                clientInfo.classList.add('hidden')
+
+            })
+        });
+
+
+
+        // Post allow edit:
         let posts = document.querySelectorAll('.edit');
 
         posts.forEach(f => {
@@ -161,6 +270,16 @@
                     description.classList.add('resize-none')
                     description.classList.add('border-none')
                 }
+            });
+        });
+
+
+        // accept
+        let taskStatus = document.querySelectorAll('.taskStatus')
+
+        taskStatus.forEach(s => {
+            s.addEventListener('change', function() {
+                this.closest('form').submit();
             });
         });
     </script>

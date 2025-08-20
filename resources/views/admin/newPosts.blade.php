@@ -82,6 +82,7 @@
                         {{-- Assign Technitions --}}
                         <form action="/assign/{{ $post->id }}" method="POST" class="mt-3">
                             @csrf
+                            
                             <select name="user_id" class="w-full p-2 border rounded assignTech">
                                 <option value="">{{ $post->category->name }}</option>
                                 @foreach ($techs->where('category_id', $post->category_id) as $tech)

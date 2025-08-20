@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
 
         $admin->assignRole("admin");
 
-        
+
         Category::insert([
             ['name' => 'Carrelage - زليج'],
             ['name' => 'Charpenterie - نجارة'],
@@ -62,8 +62,8 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Plomberie - بلومبي'],
             ['name' => 'Serrureri - صانع أقفال']
         ]);
-        
-        
+
+
         Status::insert([
             ['name' => 'Urgent - عاجل'],
             ['name' => '3/4 jours - أيام'],

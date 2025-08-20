@@ -1,37 +1,59 @@
+@php
+    use App\Models\ChMessage;
+@endphp
+
 <nav x-data="{ open: false }" class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <div class="w-full flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
+                    <a href="{{ route('dashboard') }}" class="text-[26px] flex flex-col justify-center items-center">
+                        Lmou9f
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                @role('Client'|'Technician')
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        <span class="text-[18px]">Accouil</span>
-                    </x-nav-link>
-                </div>
-                @endrole
+                <nav class="w-full flex justify-center">
+                    @role('Client|Technician')
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                                <span class="text-[18px]">Accouil</span>
+                            </x-nav-link>
+                        </div>
+                    @endrole
 
-                @role('admin')
+                    @php
+                        $unreadCounts = ChMessage::where('to_id', Auth::user()->id)
+                            ->where('seen', 0)
+                            ->count();
+                    @endphp
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('adminDash')" :active="request()->routeIs('adminDash')">
-                            <span class="text-[18px]">adminDash</span>
-                         </x-nav-link>
+                        <x-nav-link :href="route('chatify')" :active="request()->routeIs('chatify')">
+                            <span class="text-[18px] mr-3">Messages</span>
+                            @if ($unreadCounts > 0)
+                                <span class="px-[6px] bg-red-500 rounded-full text-white text-[13px]">
+                                    {{ $unreadCounts }}
+                                </span>
+                            @endif
+                        </x-nav-link>
                     </div>
 
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('newPosts')" :active="request()->routeIs('newPosts')">
-                            <span class="text-[18px]">New Posts</span>
-                         </x-nav-link>
-                    </div>
-                @endrole
+                    @role('admin')
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('adminDash')" :active="request()->routeIs('adminDash')">
+                                <span class="text-[18px]">adminDash</span>
+                            </x-nav-link>
+                        </div>
+
+                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                            <x-nav-link :href="route('newPosts')" :active="request()->routeIs('newPosts')">
+                                <span class="text-[18px]">New Posts</span>
+                            </x-nav-link>
+                        </div>
+                    @endrole
+                </nav>
             </div>
 
             <!-- Settings Dropdown -->

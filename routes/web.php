@@ -33,10 +33,14 @@ Route::middleware('auth')->group(function () {
     // users:
     Route::get('/dashboard', [PostController::class, 'clientIndex'])->name('dashboard')->middleware('role:Client|Technician');
     ;
-    Route::post('/post/store', [PostController::class, 'store'])->middleware('role:Client');
 
+    // Client:
+    Route::post('/post/store', [PostController::class, 'store'])->middleware('role:Client');
     Route::put('/post/update/{post}', [PostController::class, 'update'])->middleware('role:Client');
     Route::delete('/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:Client');
+
+    // Technician:
+    Route::put('/post/accept/{post}', [PostController::class, 'accept'])->middleware('role:Technician');
 
 });
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Assignment;
 use App\Models\Category;
+use App\Models\ChMessage;
 use App\Models\Post;
 use App\Models\Status;
 use Illuminate\Http\Request;
@@ -17,25 +18,25 @@ class PostController extends Controller
      */
     public function clientIndex()
     {
-        // $posts = Post::where('user_id', '=', Auth::user()->id)->get();
-
-        // $user = Auth::user();
-
-
         if (Auth::user()->hasRole('Client')) {
-            // Show client's posts
-            $posts = Post::where('user_id', Auth::user()->id)->get();
+            // Client's posts
+            $posts = Post::where('user_id', Auth::user()->id)->with(['assignment.user'])->get();
         } else {
-            // Show technician's assigned posts
+            // Technician's assigned posts
             $posts = Post::whereHas('assignment', function ($query) {
                 $query->where('user_id', Auth::user()->id);
-            })->get();
+            })->with('user')->get();
         }
+
 
         $categorys = Category::all();
         $statuses = Status::all();
 
-        return view('dashboard', compact('posts', 'categorys', 'statuses'));
+
+        // Unread messages
+        $unreadCounts = ChMessage::where('to_id', Auth::user()->id)->where('seen', 0)->count();
+
+        return view('dashboard', compact('posts', 'categorys', 'statuses', 'unreadCounts'));
     }
 
     /**
@@ -80,9 +81,7 @@ class PostController extends Controller
 
     public function assign(Request $request, Post $post)
     {
-        $request->validate([
-            'user_id' => 'required|exists:users,id'
-        ]);
+        $request->validate(['user_id' => 'required']);
 
         // Create or update assignment
         Assignment::updateOrCreate(
@@ -91,6 +90,18 @@ class PostController extends Controller
         );
 
         return back()->with('success', 'Technician assigned successfully!');
+    }
+
+    /**
+     * Update the post's status.
+     */
+    public function accept(Request $request, Post $post)
+    {
+        $request->validate(['status_id' => 'required']);
+
+        $post->update(['status_id' => $request->status_id]);
+
+        return back();
     }
 
     /**
@@ -115,11 +126,11 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'description' => ['required', 'string'],
+            'title' => ['nullable', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
             'image' => ['nullable', 'image', 'max:2048'],
-            'status_id' => 'required',
-            'category_id' => 'required',
+            'status_id' => 'nullable',
+            'category_id' => 'nullable',
             'user_id' => 'required'
         ]);
 
