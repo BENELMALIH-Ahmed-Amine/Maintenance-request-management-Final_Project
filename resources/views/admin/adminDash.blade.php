@@ -38,8 +38,11 @@
                                                 <img class="w-full h-full border border-black rounded-full"
                                                     src={{ asset('storage/' . $user->profil) }} alt="broken">
                                             </div>
-                                            <div class="w-fit ml-4">
-                                                <div class="font-medium text-gray-900">{{ $user->name }}</div>
+                                            <div class="w-full ml-4">
+                                                <div class="font-medium text-gray-900 flex justify-between">
+                                                    {{ $user->name }}
+                                                    <span class="px-2 bg-gray-300 rounded-full">{{ $user->posts->count() }}</span>
+                                                </div>
                                                 <div class="text-gray-500">{{ $user->email }}</div>
                                             </div>
                                         </div>
@@ -60,7 +63,7 @@
                                         <form action="/adminDash/destroy/{{ $user->id }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            
+
                                             <button
                                                 class="ml-8 px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">
                                                 DELETE

@@ -136,13 +136,13 @@
                                             src="{{ asset('storage/' . $post->image) }}" alt="">
                                     </div>
 
-                                    @role('Client')
+                                    {{-- @role('Client') --}}
                                         {{-- Edit --}}
-                                        <button id="" type="button"
+                                        {{-- <button id="" type="button"
                                             class="editBtn px-4 py-2 font-medium text-white bg-green-600 rounded-md hover:bg-green-500 focus:outline-none focus:shadow-outline-red active:bg-green-600 transition duration-150 ease-in-out absolute bottom-3 left-[90px]">
                                             Edit
-                                        </button>
-                                    @endrole
+                                        </button> --}}
+                                    {{-- @endrole --}}
                                 </form>
 
                                 @role('Client')

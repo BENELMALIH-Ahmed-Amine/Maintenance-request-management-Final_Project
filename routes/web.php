@@ -15,7 +15,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    // admin:
+    // Admin:
     Route::get('/adminDash', [AdminController::class, 'index'])->name('adminDash')->middleware('role:admin');
     Route::delete('/adminDash/destroy/{user}', [AdminController::class, 'destroy'])->middleware('role:admin');
 
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/assign/{post}', [PostController::class, 'assign'])->middleware('role:admin');
 
     // delete post
-    Route::delete('/admin/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:admin');
+    // Route::delete('/admin/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:admin');
 
 
     // users:
@@ -37,11 +37,13 @@ Route::middleware('auth')->group(function () {
     // Client:
     Route::post('/post/store', [PostController::class, 'store'])->middleware('role:Client');
     Route::put('/post/update/{post}', [PostController::class, 'update'])->middleware('role:Client');
-    Route::delete('/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:Client');
 
+    
     // Technician:
     Route::put('/post/accept/{post}', [PostController::class, 'accept'])->middleware('role:Technician');
-
+    
+    // delete post
+    Route::delete('/post/destroy/{post}', [PostController::class, 'destroy'])->middleware('role:Client|admin');
 });
 
 require __DIR__ . '/auth.php';

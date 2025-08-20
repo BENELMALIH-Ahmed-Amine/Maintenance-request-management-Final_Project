@@ -70,8 +70,34 @@
                         <div class="mb-5 flex items-center justify-between">
                             <h1 class="h-[67px] overflow-scroll text-[22px] underline">{{ $post->title }}
                             </h1>
-                            <span
-                                class="w-[100px] h-fit pt-0.5 pb-1 px-3 bg-gray-400 rounded-xl text-center text-black font-semibold">{{ $post->status->name }}</span>
+                            <div>
+                                @php
+                                    $statusColor = 'gray-400';
+                                    if ($post->status->name == 'Urgent - عاجل') {
+                                        $statusColor = 'red-500';
+                                    } elseif ($post->status->name == '3/4 jours - أيام') {
+                                        $statusColor = 'blue-500';
+                                    } elseif ($post->status->name == 'Semaine - أسبوع') {
+                                        $statusColor = 'black';
+                                    } elseif ($post->status->name == 'En cours - يتِم') {
+                                        $statusColor = 'orange-500';
+                                    } elseif ($post->status->name == 'Terminé - تَم') {
+                                        $statusColor = 'green-500';
+                                    }
+                                @endphp
+                                <section class="w-[60px] h-[60px] rounded-xl border-[1.8px]border-black relative">
+                                    <img class="w-full h-full rounded-xl border-[2px] border-black"
+                                        src="{{ asset('storage/' . $post->user->profil) }}" alt="">
+                                    <x-bi-info-circle
+                                        class="w-[20px] h-[20px] bg-{{ $statusColor }} text-white rounded-full absolute top-[7px] -right-[7px] info" />
+                                </section>
+
+                                <section class="w-[250px] p-3 bg-gray-300 break-all z-[1] hidden absolute">
+                                    <h3>Name:&nbsp;{{ $post->user->name }}</h3>
+                                    <p>Email:&nbsp;{{ $post->user->email }}</p>
+                                    <h4>Address:&nbsp;{{ $post->user->address }}</h4>
+                                </section>
+                            </div>
                         </div>
                         <p class="h-[60px] overflow-scroll text-[18px]">{{ $post->description }}</p>
                         <div class="w-full h-[300px] mt-3 bg-slate-300 rounded-[20px]">
@@ -82,7 +108,7 @@
                         {{-- Assign Technitions --}}
                         <form action="/assign/{{ $post->id }}" method="POST" class="mt-3">
                             @csrf
-                            
+
                             <select name="user_id" class="w-full p-2 border rounded assignTech">
                                 <option value="">{{ $post->category->name }}</option>
                                 @foreach ($techs->where('category_id', $post->category_id) as $tech)
@@ -93,6 +119,18 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </form>
+
+                        {{-- Delete --}}
+                        <form action="/post/destroy/{{ $post->id }}" method="POST"
+                            class="w-full mt-3 text-center">
+                            @csrf
+                            @method('DELETE')
+
+                            <button
+                                class="px-4 py-2 font-medium text-white bg-red-600 rounded-md hover:bg-red-500 focus:outline-none focus:shadow-outline-red active:bg-red-600 transition duration-150 ease-in-out">
+                                DELETE
+                            </button>
                         </form>
                     </article>
                 @endforeach
@@ -156,6 +194,22 @@
             s.addEventListener('change', function() {
                 this.closest('form').submit();
             });
+        });
+
+        // Client's Info:
+        let info = document.querySelectorAll('.info');
+        info.forEach(i => {
+            let clientInfo = i.parentElement.nextElementSibling
+
+            i.addEventListener('mouseover', () => {
+                clientInfo.classList.remove('hidden')
+
+            })
+
+            clientInfo.addEventListener('click', () => {
+                clientInfo.classList.add('hidden')
+
+            })
         });
     </script>
 </x-app-layout>

@@ -20,6 +20,7 @@ class AdminController extends Controller
         $users = User::whereDoesntHave('roles', function ($function) {
             $function->where('name', 'admin');
         })->get();
+        
         return view('admin.adminDash', compact('users'));
     }
 
