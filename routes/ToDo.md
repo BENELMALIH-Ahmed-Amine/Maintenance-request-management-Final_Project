@@ -1,5 +1,3 @@
-the tech see 'doing' - 'done'
-
 handel register errors
 
 edit posts

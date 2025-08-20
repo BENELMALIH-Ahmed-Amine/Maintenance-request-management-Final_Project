@@ -103,9 +103,13 @@
                                                     if ($post->status->name == 'Urgent - عاجل') {
                                                         $statusColor = 'red-500';
                                                     } elseif ($post->status->name == '3/4 jours - أيام') {
-                                                        $statusColor = 'orange-500';
+                                                        $statusColor = 'blue-500';
                                                     } elseif ($post->status->name == 'Semaine - أسبوع') {
                                                         $statusColor = 'black';
+                                                    } elseif ($post->status->name == 'En cours - يتِم') {
+                                                        $statusColor = 'orange-500';
+                                                    } elseif ($post->status->name == 'Terminé - تَم') {
+                                                        $statusColor = 'green-500';
                                                     }
                                                 @endphp
                                                 <section
@@ -173,6 +177,7 @@
                                                     {{ $post->status_id == $statuses[4]->id ? 'selected' : '' }}>
                                                     {{ $statuses[4]->name }}</option>
                                             </select>
+                                            <button type="submit" id="tst"></button>
                                         </form>
 
                                         {{-- Chat with the Client --}}
@@ -232,55 +237,55 @@
         });
 
 
-
-        // Post allow edit:
-        let posts = document.querySelectorAll('.edit');
-
-        posts.forEach(f => {
-            let title = f.querySelector('[name="title"]')
-            let description = f.querySelector('[name="description"]')
-            let editBtn = f.querySelector('.editBtn')
-
-            title.readOnly = true
-            description.readOnly = true
-            title.classList.add('resize-none')
-            description.classList.add('resize-none')
-            title.classList.add('border-none')
-            description.classList.add('border-none')
-
-            editBtn.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                if (editBtn.textContent == 'Edit') {
-                    editBtn.textContent = 'Save'
-                    editBtn.type = 'submit'
-                    title.readOnly = false
-                    description.readOnly = false
-                    title.classList.remove('resize-none')
-                    title.classList.remove('border-none')
-                    description.classList.remove('resize-none')
-                    description.classList.remove('border-none')
-                } else {
-                    editBtn.textContent = 'Edit'
-                    editBtn.type = 'button';
-                    title.readOnly = true
-                    description.readOnly = true
-                    title.classList.add('resize-none')
-                    title.classList.add('border-none')
-                    description.classList.add('resize-none')
-                    description.classList.add('border-none')
-                }
-            });
-        });
-
-
         // accept
         let taskStatus = document.querySelectorAll('.taskStatus')
 
+        console.log(taskStatus);
         taskStatus.forEach(s => {
             s.addEventListener('change', function() {
                 this.closest('form').submit();
             });
         });
+
+
+        // Post allow edit:
+        // let posts = document.querySelectorAll('.edit');
+
+        // posts.forEach(f => {
+        //     let title = f.querySelector('[name="title"]')
+        //     let description = f.querySelector('[name="description"]')
+        //     let editBtn = f.querySelector('.editBtn')
+
+        //     title.readOnly = true
+        //     description.readOnly = true
+        //     title.classList.add('resize-none')
+        //     description.classList.add('resize-none')
+        //     title.classList.add('border-none')
+        //     description.classList.add('border-none')
+
+        //     editBtn.addEventListener('click', (event) => {
+        //         event.preventDefault();
+
+        //         if (editBtn.textContent == 'Edit') {
+        //             editBtn.textContent = 'Save'
+        //             editBtn.type = 'submit'
+        //             title.readOnly = false
+        //             description.readOnly = false
+        //             title.classList.remove('resize-none')
+        //             title.classList.remove('border-none')
+        //             description.classList.remove('resize-none')
+        //             description.classList.remove('border-none')
+        //         } else {
+        //             editBtn.textContent = 'Edit'
+        //             editBtn.type = 'button';
+        //             title.readOnly = true
+        //             description.readOnly = true
+        //             title.classList.add('resize-none')
+        //             title.classList.add('border-none')
+        //             description.classList.add('resize-none')
+        //             description.classList.add('border-none')
+        //         }
+        //     });
+        // });
     </script>
 </x-app-layout>

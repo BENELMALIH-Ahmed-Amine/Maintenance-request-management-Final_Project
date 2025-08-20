@@ -76,7 +76,7 @@ class PostController extends Controller
     }
 
     /**
-     * Assing the posts.
+     * Assing posts.
      */
 
     public function assign(Request $request, Post $post)
@@ -93,7 +93,7 @@ class PostController extends Controller
     }
 
     /**
-     * Update the post's status.
+     * Update post's status.
      */
     public function accept(Request $request, Post $post)
     {
